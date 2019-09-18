@@ -1,0 +1,73 @@
+enable 
+configure terminal 
+hostname RT-01
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhadaEnable
+line console 0
+login local
+exit 
+username Igor privilege 15 secret SenhaIgor
+username Pedro privilege 15 secret SenhaPedro 
+username Caio privilege 15 secret SenhaCaio 
+username Rafael privilege 15 secret SenhaRafael 
+username Vinicius privilege 15 secret SenhaVinicius 
+login block-for 180 attempts 3 within 60 
+security passwords min-length 8
+ip domain-name peachanddaisy.local
+crypto key generate rsa general-keys modulus 1024
+interface g0/1.10
+encapsulation dot1Q 10
+ip address 172.16.18.1 255.255.255.128
+description 172.16.18.0 vlan 10
+interface g0/1.20
+encapsulation dot1Q 20
+ip address 172.16.20.1 255.255.255.224
+description 172.16.20.0 vlan 20
+exit
+interface g0/1.30
+encapsulation dot1Q 30
+ip address 172.16.19.193 255.255.255.192
+description 172.16.19.192 vlan 30
+exit
+interface g0/1.40
+encapsulation dot1Q 40
+ip address 172.16.8.1 255.255.248.0 
+description 172.16.8.0 vlan 40
+exit
+interface g0/1.50
+encapsulation dot1Q 50
+ip address 172.16.16.1 255.255.254.0
+description 172.16.18.0 vlan 50
+exit
+interface g0/1.60
+encapsulation dot1Q 60
+ip address 172.16.19.129 255.255.255.192
+description 172.16.19.128 vlan 60
+exit
+interface g0/1.70
+encapsulation dot1Q 70
+ip address 172.16.18.129 255.255.255.128 
+description 172.16.18.128 vlan 70
+exit
+interface g0/1.80
+encapsulation dot1Q 80
+ip address 172.16.20.33 255.255.255.240
+description 172.16.20.32 vlan 80
+exit
+interface g0/1.90
+encapsulation dot1Q 90
+ip address 172.16.0.1 255.255.248.0 
+description 172.16.0.0 vlan 90
+exit
+interface g0/1.100
+encapsulation dot1Q 100
+ip address 172.16.19.1 255.255.255.128
+description 172.16.19.0 vlan 100
+exit
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login local
+exit
+do wr
