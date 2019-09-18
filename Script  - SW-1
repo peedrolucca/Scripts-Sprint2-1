@@ -1,0 +1,105 @@
+enable 
+configure terminal 
+hostname SW-1
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhadaEnable
+line console 0
+login local
+exit 
+username Igor privilege 15 secret SenhaIgor
+username Pedro privilege 15 secret SenhaPedro 
+username Caio privilege 15 secret SenhaCaio 
+username Rafael privilege 15 secret SenhaRafael 
+username Vinicius privilege 15 secret SenhaVinicius 
+ip domain-name peachanddaisy.local
+crypto key generate rsa general-keys modulus 1024
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login local
+exit
+ip default-gateway 172.16.20.33
+vlan 10
+name RH
+vlan 20
+name Qualidade 
+vlan 30
+name Recepção
+vlan 40
+name Consultores 
+vlan 50
+name Analistas 
+vlan 60
+name TI 
+vlan 70
+name Administração
+vlan 80
+name Servidores
+vlan 90
+name Voz 
+vlan 100
+name Finanças
+interface f0/1
+switchport mode access
+switchport access vlan 10
+description 172.16.18.0 
+interface f0/2
+switchport mode access
+switchport access vlan 70
+description 172.16.18.128
+interface f0/3
+switchport mode access 
+switchport access vlan 20 
+description 172.16.20.0
+interface f0/4
+switchport mode access 
+switchport access vlan 30
+description 172.16.19.192
+interface f0/5
+switchport mode access
+switchport access vlan 40
+description 172.16.8.0
+interface f0/6
+switchport mode access 
+switchport access vlan 50
+description 172.16.16.0
+interface f0/7
+switchport mode access
+switchport access vlan 60
+description 172.16.19.128
+interface f0/12
+switchport mode access 
+switchport access vlan 80
+description 172.16.20.32
+interface f0/9
+switchport mode access 
+switchport access vlan 100
+description 172.16.19.0
+interface f0/10
+switchport mode access 
+switchport access vlan 90
+description 172.16.0.0
+exit
+interface f0/11
+switchport mode trunk
+switchport trunk native vlan 99
+interface f0/11
+switchport mode trunk
+switchport trunk allowed vlan 10
+switchport trunk allowed vlan add 20
+switchport trunk allowed vlan add 30
+switchport trunk allowed vlan add 40
+switchport trunk allowed vlan add 50
+switchport trunk allowed vlan add 60
+switchport trunk allowed vlan add 70
+switchport trunk allowed vlan add 80
+switchport trunk allowed vlan add 90
+switchport trunk allowed vlan add 99
+switchport trunk allowed vlan add 100
+exit
+interface vlan 1
+ip address 172.16.20.46 255.255.255.240
+no shutdown
+do wr
